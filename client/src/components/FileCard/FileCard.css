@@ -1,0 +1,54 @@
+.file_card {
+  width: 90%;
+  /* height: 100px; */
+  padding: 10px 0;
+  background: grey;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin-left: 25px;
+}
+
+.file_icon_info,
+.file_name,
+.size {
+  display: flex;
+  align-items: center;
+}
+
+.file_icon {
+  margin-left: 20px;
+}
+
+.file_info {
+  margin-left: 20px;
+}
+
+.file_name,
+.size {
+  width: 280px;
+  /* background: wheat; */
+}
+
+.file_name > p:nth-child(2),
+.size > p:nth-child(2) {
+  margin-left: 10px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.size {
+  margin-top: 5px;
+}
+
+.parse {
+  margin-right: 20px;
+  padding: 5px;
+}
+
+.parse:hover {
+  background: chartreuse;
+}
