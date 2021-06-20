@@ -2,18 +2,14 @@
 
 ## How to install
 
-First, you need navigate to the server folder, and install the following python packages
+First, you need navigate to the server folder, and run the following command to download all the python packages:
 ```
-pip install spcacy
-pip install nltk
-pip install tika
-pip flask
-pip install flask-cors
-pip install flask_restful
+pip install requirements.txt
 ```
 
-Please note the nltk, we require the download some files so you can python in CMD:
+Please note the NLTK packages, you are erequired to download some files. Run the following code in your terminal:
 ```python
+python
 import nltk
 nltk.download()
 ```
