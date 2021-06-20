@@ -1,0 +1,10 @@
+pygame==2.0.1
+python_docx==0.8.11
+Flask==2.0.1
+gTTS==2.2.3
+Flask_RESTful==0.3.9
+Flask_Cors==3.0.10
+spacy==3.0.6
+tika==1.24
+nltk==3.6.2
+docx==0.2.4
