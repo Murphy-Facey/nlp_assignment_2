@@ -2,14 +2,14 @@
 
 # dependencies
 */node_modules
-/.pnp
+*/.pnp
 .pnp.js
 
 # testing
-/coverage
+*/coverage
 
 # production
-/build
+*/build
 
 # misc
 .DS_Store
@@ -22,6 +22,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-
-/server/venv/
-/server/audios/
+# Server side files ignored
+/server/*/
