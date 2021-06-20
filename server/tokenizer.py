@@ -1,8 +1,7 @@
 import re
 import spacy
 import docx
-from tika import parser
-# import textract
+import pdfplumber
 
 class Tokenizer:
     def __init__(self):
@@ -15,8 +14,11 @@ class Tokenizer:
             doc_text = '\n'.join(paragraph.text for paragraph in doc.paragraphs)
             self.text = doc_text
         elif '.pdf' in file:
-            raw = parser.from_file(file)
-            self.text = raw['content']
+            with pdfplumber.open(file) as pdf:
+                for page in pdf.pages:
+                    self.text = page.extract_text() + '\n'
+            # raw = parser.from_file(file)
+            # self.text = raw['content']
         elif '.txt' in file:
             with open(file) as f:
                 self.text = ' '.join(f.readlines())
