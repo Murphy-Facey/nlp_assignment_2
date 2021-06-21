@@ -3,15 +3,17 @@ from nltk import CFG, parse
 import docx
 from tika import parser as ps
 
+
 class Parser:
     def __init__(self):
         self.text = ''
-    
+
     def read_from_file(self, file):
         # self.text = textract.process(file)
         if '.docx' in file:
             doc = docx.Document(file)
-            doc_text = '\n'.join(paragraph.text for paragraph in doc.paragraphs)
+            doc_text = '\n'.join(
+                paragraph.text for paragraph in doc.paragraphs)
             self.text = doc_text
         elif '.pdf' in file:
             raw = ps.from_file(file)
@@ -34,6 +36,6 @@ class Parser:
         parser = nltk.chunk.RegexpParser(grammar)
         return parser.parse(tagged)
 
-parser = Parser()
-parser.read_from_file("files\\apl.pdf")
-parser.cfg()
+# parser = Parser()
+# parser.read_from_file("files\\apl.pdf")
+# parser.cfg()
