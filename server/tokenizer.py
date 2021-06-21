@@ -2,6 +2,7 @@ import re
 import spacy
 import docx
 import pdfplumber
+from newspaper import Article
 
 class Tokenizer:
     def __init__(self):
@@ -17,14 +18,19 @@ class Tokenizer:
             with pdfplumber.open(file) as pdf:
                 for page in pdf.pages:
                     self.text = page.extract_text() + '\n'
-            # raw = parser.from_file(file)
-            # self.text = raw['content']
+        elif 'http' in file:
+            article = Article(file)
+            article.download()
+            article.parse()
+
+            self.text = article.text
         elif '.txt' in file:
             with open(file) as f:
                 self.text = ' '.join(f.readlines())
 
     def reg_tokenize(self):
         # Create tokens by white space
+        print('started')
         tokens = self.text.split()
         for index, token in enumerate(tokens):
             if re.findall(r'(?:[A-Z]\.)+', token) != []:
@@ -69,6 +75,7 @@ class Tokenizer:
                 'pos': doc[0].pos_,
                 'shape': doc[0].shape
             })
+        print('ended')
         return info
     
     def sent_tokenize(self):

@@ -51,7 +51,7 @@ class Files(Resource):
         # print(data['type'])
         if data['type'] == 'url':
             file = open('urls.txt', 'a')
-            file.write(data['url'] + '\n')
+            file.write('\n' + data['url'])
             file.close()
         else:
             binary_data = a2b_base64(data['data_url'])
@@ -67,7 +67,10 @@ class Tokenize(Resource):
     def put(self):
         data = ast.literal_eval(request.data.decode("UTF-8"))
         tk = Tokenizer()
-        tk.read_from_file('files\\' + data['name'])
+        if 'http' in data['name']:
+            tk.read_from_file(data['name'])
+        else:
+            tk.read_from_file('files\\' + data['name'])
         tokens = tk.reg_tokenize()
         return {
             'tokens': tokens,
