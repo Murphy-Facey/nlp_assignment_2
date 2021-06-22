@@ -23,6 +23,7 @@ cors = CORS(app)
 
 t = Tokenizer()
 
+
 class Files(Resource):
     def get(self):
         files = []
@@ -36,7 +37,7 @@ class Files(Resource):
                 'name': file.replace('files\\', ''),
                 'ext': os.path.splitext(file)[1],
                 'info': os.stat(file).st_size})
-            
+
         with open('urls.txt', 'r') as f:
             for line in f.readlines():
                 result.append({
@@ -60,6 +61,7 @@ class Files(Resource):
             fd.close()
         return {"sucsess": "true"}
 
+
 class Tokenize(Resource):
     def get(self):
         pass
@@ -71,11 +73,13 @@ class Tokenize(Resource):
         tokens = tk.reg_tokenize()
         return {
             'tokens': tokens,
-            'stop_words': t.stop_freq(tokens),
-            'pos': t.pos_freq(tokens)
+            'stop_words': tk.stop_freq(tokens),
+            'pos': tk.pos_freq(tokens),
+            'raw_text': tk.text
         }
 
-class Audios(Resource): 
+
+class Audios(Resource):
     def put(self):
         pass
 
@@ -98,6 +102,7 @@ class Audios(Resource):
 #         return {
 #             'cfg': parser.cfg(token.text)
 #         }
+
 
 api.add_resource(Files, "/files")
 api.add_resource(Tokenize, "/tokenize")
