@@ -50,7 +50,7 @@ class Removers:
 # removes repeating words
     # -----------------------------------Word Remover-------------------------------
     # should removes the next word in the  duplicate it the system
-    def repeatWordRemover(self, text):
+    def wordRemover(self, text):
         sentences = Removers().sent_tokenizer(
             text)  # does the sentencing of the text
         buffer = []
@@ -85,30 +85,29 @@ class Removers:
                     prev_elem = curr_elem
             print("++++++++++++++++++buffer now ++++++++++++++++++++++++")
             print(buffer)
-            # the buffer has the list without duplicates
+
 
 # +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+Repeating Sentence Remover *+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+
 # removes repeating words
-    # -----------------------------------Sentence Remover-------------------------------
+    # -----------------------------------Word Remover-------------------------------
     # should removes the next word in the  duplicate it the system
 
-    def repeatSentRemover(self, text):
-        paragraphs = Removers().paragrapher(
+    def sentRemover(self, text):
+        sentences = Removers().sent_tokenizer(
             text)  # does the sentencing of the text
         buffer = []
         # splits text into sentences then splits the sentences into tokens
-        for i in range(len(paragraphs)):
+        for i in range(len(sentences)):
             # the sentence we are dealin g with the sentence3 number
             print("Sentence", i)
-            print(paragraphs[i])
+            print(sentences[i])
             print("Tokens in sentence", i)  # the tokens in the sentence
-            sentences = sent_tokenize(paragraphs[i])
-            print(sentences)  # words is a list
+            words = word_tokenize(sentences[i])
+            print(words)  # words is a list
             # -------------------------------------------------
-            # assigns the tokens to another list for manipulation
-            buffer = ''.join(str(sentences).split()).lower()
+            buffer = words  # assigns the tokens to another list for manipulation
             print("items in buffer")
-            print(sentences)  # show the items in the buffer
+            print(buffer)  # show the items in the buffer
 
             # set the previous element being checked
             # to an first token
@@ -159,7 +158,7 @@ class Removers:
 # +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+Sentence remover *+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+
 # removes duplicate sentences in same paragraph
 
-    def duplicateSentRemover(self, text):
+    def sent_remover(self, text):
         unique_sents = []
         paragraphs = self.paragrapher(text)
         for paragraph in paragraphs:
@@ -178,7 +177,7 @@ class Removers:
                 Removers().unique_list(unique_sents.split(".")))
 
             print(
-                "+++++++++++++++++_________________without duplicates_____________+++++++++++++++")
+                "+++++++++++++++++_________________without reduncdancies_____________+++++++++++++++")
             print(unique_sents)
 
     def sent_tokenizer(self, text):
@@ -208,6 +207,4 @@ class Removers:
 #     "Will you cease and desist that infernal racket! We should plan ahead for Christmas."))
 # Removers().sentenceRedundanceRemover1(text)
 # Removers().paragrapher(text)
-# Removers().repeatWordRemover(text)
-# Removers().repeatSentRemover(text)
-# Removers().duplicateSentRemover(text)
+Removers().sent_remover(text)
