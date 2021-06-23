@@ -4,6 +4,7 @@ import docx
 import pdfplumber
 
 
+
 class Parser:
     def __init__(self):
         self.text = ''
@@ -37,6 +38,6 @@ class Parser:
         parser = nltk.chunk.RegexpParser(grammar)
         return parser.parse(tagged)
 
-# parser = Parser()
+#parser = Parser()
 # parser.read_from_file("files\\apl.pdf")
 # parser.cfg()
