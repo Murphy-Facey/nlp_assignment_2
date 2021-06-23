@@ -74,11 +74,15 @@ class Tokenize(Resource):
         else:
             tk.read_from_file('files\\' + data['name'])
         tokens = tk.reg_tokenize()
+        optimized = tk.optimized_text()
         return {
             'tokens': tokens,
             'stop_words': tk.stop_freq(tokens),
             'pos': tk.pos_freq(tokens),
-            'raw_text': tk.text
+            'raw_text': optimized['text'],
+            'pc': optimized['phrase_counter'],
+            'sc': optimized['sent_counter'],
+            'wc': optimized['word_counter']
         }
 
 

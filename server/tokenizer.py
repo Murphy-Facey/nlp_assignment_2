@@ -133,4 +133,9 @@ class Tokenizer:
     def optimized_text(self):
         optimizer = Optimizer()
         opt_text = optimizer.optimize(self.text)
-        return ' '.join(opt_text) 
+        return {
+            'text': ' '.join(opt_text),
+            'phrase_counter': optimizer.phrase_counter,
+            'sent_counter': optimizer.sent_counter,
+            'word_counter': optimizer.word_counter
+        }
