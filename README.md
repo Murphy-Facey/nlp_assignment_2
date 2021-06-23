@@ -41,9 +41,8 @@ yarn start
 ## Things to do
 
 - [ ] Update the UI
-- [ ] Change the TTS to be handled on the client side
-- [ ] 
+- [x] Change the TTS to be handled on the client side
 - [ ] Create the optimizer.py file 
-    - [ ] Add the remove repeated words function
-    - [ ] Add the remove repeated sentences function
-    - [ ] 
+    - [x] Add the remove repeated words function
+    - [x] Add the remove repeated sentences function
+    - [x] Add the remove redundant phrases 
