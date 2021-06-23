@@ -11,7 +11,7 @@ class Tokenizer:
     def __init__(self):
         self.text = ''
 
-    def readPdfContent(self, fileName):
+    def read_pdf_content(self, fileName):
         result = []
         pdf = pdfplumber.open(fileName)
         try:
@@ -21,8 +21,6 @@ class Tokenizer:
                 for word in pageArray:
                     if(word != '□'):
                         result.append(word)
-                    if(len(result) >= 250):
-                        return result
         except:
             print("Error while processing .pdf")
 
@@ -39,10 +37,7 @@ class Tokenizer:
                 paragraph.text for paragraph in doc.paragraphs)
             self.text = doc_text
         elif '.pdf' in file:
-            self.text = " ".join(self.readPdfContent(file))
-            # with pdfplumber.open(file) as pdf:
-            #     for page in pdf.pages:
-            #         self.text = page.extract_text() + '\n'
+            self.text = " ".join(self.read_pdf_content(file))
         elif 'http' in file:
             article = Article(file)
             article.download()
@@ -56,6 +51,7 @@ class Tokenizer:
     def reg_tokenize(self):
         # Create tokens by white space
         print('started')
+        opt_text = self.optimized_text()['text']
         tokens = self.text.split()
         for index, token in enumerate(tokens):
             if re.findall(r'(?:[A-Z]\.)+', token) != []:
@@ -134,7 +130,7 @@ class Tokenizer:
         optimizer = Optimizer()
         opt_text = optimizer.optimize(self.text)
         return {
-            'text': ' '.join(opt_text),
+            'text': ' '.join(opt_text).replace('`` ', '"').replace("''", '"'),
             'phrase_counter': optimizer.phrase_counter,
             'sent_counter': optimizer.sent_counter,
             'word_counter': optimizer.word_counter

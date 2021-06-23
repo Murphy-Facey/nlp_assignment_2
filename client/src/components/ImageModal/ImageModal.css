@@ -1,0 +1,7 @@
+.image_modal {
+    width: 500px;
+    height: 500px;
+    background-color: blue;
+    z-index: 99;
+    position: absolute;
+}

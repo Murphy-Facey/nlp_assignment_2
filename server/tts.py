@@ -1,7 +1,6 @@
 from gtts import gTTS
 from pygame import mixer
 
-
 class TTS:
     def __init__(self):
         # self.path = 'C:/Users/Programmer/Desktop/Projects/nlp_assignment_2/client/public/audios'

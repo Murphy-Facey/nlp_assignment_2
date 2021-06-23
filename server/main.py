@@ -1,7 +1,7 @@
 # Modules for the API
 from flask_cors import CORS
 from flask_restful import Api, Resource
-from flask import Flask, request
+from flask import Flask, request, send_file
 from binascii import a2b_base64
 
 from glob import glob
@@ -86,34 +86,43 @@ class Tokenize(Resource):
         }
 
 
-class Audios(Resource):
-    def put(self):
-        pass
+# class Audios(Resource):
+#     def put(self):
+#         pass
 
-    def post(self):
-        tts = TTS()
-        data = ast.literal_eval(request.data.decode("UTF-8"))
-        if t.text == '':
-            t.read_from_file('files\\' + data['filename'])
-        tts.init_sentences(t.sent_tokenize())
-        tts.generate_audio(data['folder'], data['index'], data['play'])
+#     def post(self):
+#         tts = TTS()
+#         data = ast.literal_eval(request.data.decode("UTF-8"))
+#         if t.text == '':
+#             t.read_from_file('files\\' + data['filename'])
+#         tts.init_sentences(t.sent_tokenize())
+#         tts.generate_audio(data['folder'], data['index'], data['play'])
+
+class Images(Resource):
+    def get(self):
+        return send_file('img/apl_0.png')
 
 # class Parse(Resource):
 #     def put(self):
-#         print(request.data)
+#         data = request.data.decode("UTF-8")
+#         # t.read_from_file('files\\' + data['name'])
+#         # print(t.text)
+#         # parser = Parser()
+#         # parser.text = t.optimized_text()
+#         # return {
+#         #     'page_num': parser.cfg(data['filename'])
+#         # }
+    
+#     def post(self):
 #         data = ast.literal_eval(request.data.decode("UTF-8"))
 #         parser = Parser()
-#         token = Tokenizer()
-#         token.read_from_file(data['file'])
-#         # parser.read_from_file(data['file'])
 #         return {
-#             'cfg': parser.cfg(token.text)
+#             'url': parser.convert_to_png(data['filename'], data['index'])
 #         }
-
 
 api.add_resource(Files, "/files")
 api.add_resource(Tokenize, "/tokenize")
-# api.add_resource(Audios, "/audios")
+api.add_resource(Images, "/images")
 # api.add_resource(Parse, "/parse")
 
 if __name__ == "__main__":
