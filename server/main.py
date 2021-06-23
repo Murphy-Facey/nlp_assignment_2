@@ -23,6 +23,7 @@ cors = CORS(app)
 
 t = Tokenizer()
 
+
 class Files(Resource):
     def get(self):
         files = []
@@ -36,7 +37,7 @@ class Files(Resource):
                 'name': file.replace('files\\', ''),
                 'ext': os.path.splitext(file)[1],
                 'info': os.stat(file).st_size})
-            
+
         with open('urls.txt', 'r') as f:
             for line in f.readlines():
                 result.append({
@@ -51,14 +52,15 @@ class Files(Resource):
         # print(data['type'])
         if data['type'] == 'url':
             file = open('urls.txt', 'a')
-            file.write(data['url'] + '\n')
+            file.write('\n' + data['url'])
             file.close()
         else:
             binary_data = a2b_base64(data['data_url'])
             fd = open('files\\' + data['file_name'], 'wb')
             fd.write(binary_data)
             fd.close()
-        return {"sucsess": "true"}
+        return {"success": True}
+
 
 class Tokenize(Resource):
     def get(self):
@@ -67,15 +69,20 @@ class Tokenize(Resource):
     def put(self):
         data = ast.literal_eval(request.data.decode("UTF-8"))
         tk = Tokenizer()
-        tk.read_from_file('files\\' + data['name'])
+        if 'http' in data['name']:
+            tk.read_from_file(data['name'])
+        else:
+            tk.read_from_file('files\\' + data['name'])
         tokens = tk.reg_tokenize()
         return {
             'tokens': tokens,
-            'stop_words': t.stop_freq(tokens),
-            'pos': t.pos_freq(tokens)
+            'stop_words': tk.stop_freq(tokens),
+            'pos': tk.pos_freq(tokens),
+            'raw_text': tk.text
         }
 
-class Audios(Resource): 
+
+class Audios(Resource):
     def put(self):
         pass
 
@@ -99,9 +106,10 @@ class Audios(Resource):
 #             'cfg': parser.cfg(token.text)
 #         }
 
+
 api.add_resource(Files, "/files")
 api.add_resource(Tokenize, "/tokenize")
-api.add_resource(Audios, "/audios")
+# api.add_resource(Audios, "/audios")
 # api.add_resource(Parse, "/parse")
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileImport } from '@fortawesome/free-solid-svg-icons';
 import { nanoid } from 'nanoid';
@@ -12,29 +12,33 @@ const FileUpload = ({ handler }) => {
   const [url, setUrl] = useState('');
 
   useEffect(() => {
+    get_files()
+  }, []);
+
+  const get_files = () => {
     axios.get('http://127.0.0.1:5000/files')
       .then((response) => {
-        console.log(response);
         setFiles(response.data);
+        // console.log("get_files GET REQUEST ----> ", response);
       }, (error) => {
         console.log(error);
       });
-  }, []);
+  }
 
   const add_url = () => {
-    console.log(url);
+    // console.log(url);
     axios.put('http://127.0.0.1:5000/files', {
       type: 'url',
       url: url
     }).then((response) => {
-      console.log(response);
+      console.log("add_url REQUEST ----> ", response);
+      if (response?.data?.success) {
+        get_files()
+      }
     }, (error) => {
       console.log(error)
     });
   }
-
-  // handler('current', false);
-
   const handleOnclick = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -57,7 +61,10 @@ const FileUpload = ({ handler }) => {
           type: 'file',
           data_url: e.target.result.split(',')[1]
         }).then((response) => {
-          console.log(response);
+          // console.log("on_file_change PUT REQUEST ----> ", response);
+          if (response?.data?.success) {
+            get_files()
+          }
         }, (error) => {
           console.log(error);
         });
@@ -66,7 +73,6 @@ const FileUpload = ({ handler }) => {
     });
   }
 
-
   return (
     <div className="file_upload">
       <div className="user_input">
@@ -74,12 +80,12 @@ const FileUpload = ({ handler }) => {
           <input type="text" value={url} onChange={(e) => setUrl(e.target.value)} />
           <div className="clear_icon"></div>
           <div className="file_upload_icon" onClick={file_upload} >
-            <input 
-              type="file" 
-              accept=".pdf, .txt, .docx" 
-              autoComplete="off" 
-              style={{display: 'none'}} 
-              id="file_upload" 
+            <input
+              type="file"
+              accept=".pdf, .txt, .docx"
+              autoComplete="off"
+              style={{ display: 'none' }}
+              id="file_upload"
               onChange={on_file_change}
             />
             <FontAwesomeIcon icon={faFileImport} />

@@ -55,6 +55,7 @@
     position: absolute;
     bottom: 0;
     background: chocolate;
+    overflow: auto;
 }
 
 .words {
@@ -69,6 +70,10 @@
   margin: 5px;
   width: fit-content;
   background: grey;
+}
+
+.word:hover{
+  cursor: pointer;
 }
 
 .number {
