@@ -59,7 +59,7 @@ class Files(Resource):
             fd = open('files\\' + data['file_name'], 'wb')
             fd.write(binary_data)
             fd.close()
-        return {"sucsess": "true"}
+        return {"success": True}
 
 
 class Tokenize(Resource):
@@ -109,7 +109,7 @@ class Audios(Resource):
 
 api.add_resource(Files, "/files")
 api.add_resource(Tokenize, "/tokenize")
-api.add_resource(Audios, "/audios")
+# api.add_resource(Audios, "/audios")
 # api.add_resource(Parse, "/parse")
 
 if __name__ == "__main__":

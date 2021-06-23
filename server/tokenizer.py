@@ -4,20 +4,43 @@ import docx
 import pdfplumber
 from newspaper import Article
 
+
 class Tokenizer:
     def __init__(self):
         self.text = ''
+
+    def readPdfContent(self, fileName):
+        result = []
+        pdf = pdfplumber.open(fileName)
+        try:
+            for page in pdf.pages:
+                singlePage = page.extract_text()
+                pageArray = re.split(r'\s+', singlePage)
+                for word in pageArray:
+                    if(word != '□'):
+                        result.append(word)
+                    if(len(result) >= 250):
+                        return result
+        except:
+            print("Error while processing .pdf")
+
+        finally:
+            pdf.close()
+            # delete_file(fileName)
+            return result
 
     def read_from_file(self, file):
         # self.text = textract.process(file)
         if '.docx' in file:
             doc = docx.Document(file)
-            doc_text = '\n'.join(paragraph.text for paragraph in doc.paragraphs)
+            doc_text = '\n'.join(
+                paragraph.text for paragraph in doc.paragraphs)
             self.text = doc_text
         elif '.pdf' in file:
-            with pdfplumber.open(file) as pdf:
-                for page in pdf.pages:
-                    self.text = page.extract_text() + '\n'
+            self.text = " ".join(self.readPdfContent(file))
+            # with pdfplumber.open(file) as pdf:
+            #     for page in pdf.pages:
+            #         self.text = page.extract_text() + '\n'
         elif 'http' in file:
             article = Article(file)
             article.download()
@@ -52,16 +75,16 @@ class Tokenizer:
             if re.findall(r"\w+|[^\w\s]", token) != []:
                 items = re.findall(r"\w+|[^\w\s]", token)
                 tokens[index] = items
-                
+
         flat_list = [item for sublist in tokens for item in sublist]
         return self.token_info(flat_list)
-    
+
     def tokenize(self, text):
         nlp = spacy.load("en_core_web_sm")
         doc = nlp(text)
         for token in doc:
             print(token.text)
-    
+
     def token_info(self, tokens):
         nlp = spacy.load("en_core_web_sm")
         info = []
@@ -77,7 +100,7 @@ class Tokenizer:
             })
         print('ended')
         return info
-    
+
     def sent_tokenize(self):
         sentences = []
         nlp = spacy.load("en_core_web_sm")
@@ -85,16 +108,16 @@ class Tokenizer:
         for sent in doc.sents:
             sentences.append(sent.text)
         return sentences
-    
+
     def pos_freq(self, tokens):
         pos = {}
         for token in tokens:
             if (token['pos'] in pos):
                 pos[token['pos']] += 1
             else:
-                 pos[token['pos']] = 1
+                pos[token['pos']] = 1
         return pos
-    
+
     def stop_freq(self, tokens):
         stop_words = {}
         for token in tokens:
@@ -102,5 +125,5 @@ class Tokenizer:
                 stop_words[token['text']] += 1
             elif token['is_stop_word']:
                 stop_words[token['text']] = 1
-            
+
         return stop_words
