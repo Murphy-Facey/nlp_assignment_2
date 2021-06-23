@@ -1,213 +1,108 @@
-import json
-import nltk
-from nltk import word_tokenize, sent_tokenize
 import spacy
-nlp = spacy.load('en_core_web_sm')
+import json
+from nltk import sent_tokenize, word_tokenize
+from collections import Counter
 
-
-text = """ It's not only writers who can benefit from this free online tool. It's not only writers who can benefit from this free online tool. If you're a programmer who's working on a project where blocks of text are needed, this tool can be a great way to get that. It's a good way to test your programming and that the tool being created is working well.
-
-Above are a few examples of how the random paragraph generator can be beneficial. The best way to see if this random paragraph picker will be useful for your intended purposes is to give it a try. Generate a number of paragraphs to see if they are beneficial to your current project.
-
-If you do find this paragraph tool useful, please do us a favor and let us know how you're using it. It's greatly beneficial for us to know the different ways this tool is being used so we can improve it with updates. This is especially true since there are times when the generators we create get used in completely unanticipated ways from when we initially created them. If you have the time, please send us a quick note on what you'd like to see changed or added to make it better in the future."""
-
-rep = """ I I I i love you you You this is something else """
-
-
-class Removers:
+class Optimizer():
     def __init__(self):
-        self.phrases = {}
-
-    # should remove replicated from whatever list that is sent - but it curretly lets leaves reminants of the item that should be removed
-    # r
-    def SpacySentencizer(self, text):
-        about_doc = nlp(text)
-        sentences = list(about_doc.sents)
-
-        for sentence in sentences:
-            str(sentence).lower().replace(" ", "")
-            print(sentence)
-        print("-------------------------Stuff from the sentences---------------------------------")
-        a = ''.join(Removers.removesrepeated(str(sentences).split())).lower()
-        print(a)
-
-    def sentenceRemover(self, text):  # removes repeated sentences from tokens
-        sentences = sent_tokenize(text)
-        print(sentences)
-        return sentences
-
-    def removesrepeated(self, sentences):
-        ulist = []
-        [ulist.append(x) for x in sentences if x not in ulist]
-        # ulist = [x for x in sentences if x not in ulist]
-        return ulist
-
-    # def sentenceLength(sentence):
-    #     if len(sentence) <= 1:
-    #         print(sentence)
-
-# +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+Word Remover *+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+
-# removes repeating words
-    # -----------------------------------Word Remover-------------------------------
-    # should removes the next word in the  duplicate it the system
-    def repeatWordRemover(self, text):
-        sentences = Removers().sent_tokenizer(
-            text)  # does the sentencing of the text
-        buffer = []
-        # splits text into sentences then splits the sentences into tokens
-        for i in range(len(sentences)):
-            # the sentence we are dealin g with the sentence3 number
-            print("Sentence", i)
-            print(sentences[i])
-            print("Tokens in sentence", i)  # the tokens in the sentence
-            words = word_tokenize(sentences[i])
-            print(words)  # words is a list
-            # -------------------------------------------------
-            buffer = words  # assigns the tokens to another list for manipulation
-            print("items in buffer")
-            print(buffer)  # show the items in the buffer
-
-            # set the previous element being checked
-            # to an first token
-            prev_elem = buffer[0]
-
-            # for all the elements in the buffer
-            for curr_elem in buffer:
-                # if the current element is the same as
-                # the previous element, then remove the
-                # previous element
-
-                if prev_elem.lower() == curr_elem.lower():
-                    buffer.remove(prev_elem)
-                else:
-                    # Otherwise, upate the previous
-                    # element to current element
-                    prev_elem = curr_elem
-            print("++++++++++++++++++buffer now ++++++++++++++++++++++++")
-            print(buffer)
-            # the buffer has the list without duplicates
-
-# +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+Repeating Sentence Remover *+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+
-# removes repeating words
-    # -----------------------------------Sentence Remover-------------------------------
-    # should removes the next word in the  duplicate it the system
-
-    def repeatSentRemover(self, text):
-        paragraphs = Removers().paragrapher(
-            text)  # does the sentencing of the text
-        buffer = []
-        # splits text into sentences then splits the sentences into tokens
-        for i in range(len(paragraphs)):
-            # the sentence we are dealin g with the sentence3 number
-            print("Sentence", i)
-            print(paragraphs[i])
-            print("Tokens in sentence", i)  # the tokens in the sentence
-            sentences = sent_tokenize(paragraphs[i])
-            print(sentences)  # words is a list
-            # -------------------------------------------------
-            # assigns the tokens to another list for manipulation
-            buffer = ''.join(str(sentences).split()).lower()
-            print("items in buffer")
-            print(sentences)  # show the items in the buffer
-
-            # set the previous element being checked
-            # to an first token
-            prev_elem = buffer[0]
-
-            # for all the elements in the buffer
-            for curr_elem in buffer:
-                # if the current element is the same as
-                # the previous element, then remove the
-                # previous element
-
-                if prev_elem.lower() == curr_elem.lower():
-                    buffer.remove(prev_elem)
-                else:
-                    # Otherwise, upate the previous
-                    # element to current element
-                    prev_elem = curr_elem
-            print("++++++++++++++++++buffer now ++++++++++++++++++++++++")
-            print(buffer)
-
-# +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+Redundancy Remover *+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+
-# removes redundant phrases
-
-    def readRedundantPhrases(self):
-        file = open(  # this file location might need to change to accomodate the mache it is running on
-            r"C:\Users\johne\Desktop\assignment3\nlp_assignment_2\server\redundant_phrases.json", "r")  # added r to the brging of the string to fix a unicode error
-        self.phrases = json.loads(file.read())
-
-    def removeRedundantPhrasee(self, sentence):
-        self.readRedundantPhrases()
-
-        print(sentence)
-        for key in self.phrases:
-            if key in sentence:
-                sentence = sentence.replace(key, str(self.phrases[key]))
-        return sentence
-    # rule : we know have a paragraph when the text hits a next line sentences
-
+        # self.text = text
+        self.redundant_phrases = self.read_phrases_from_file()
+        self.phrase_counter = 0
+        self.word_counter = 0 
+        self.sent_counter = 0
+    
     def paragrapher(self, text):
-        paragraph = str(text).split('\n')
-        # print(paragraph)
-        return paragraph
+        paragraphs = [para for para in text.split('\n') if para != ""]
+        return paragraphs
 
-    def normalizer(self, text):
-        return str(text).lower()
-
-
-# +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+Sentence remover *+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+
-# removes duplicate sentences in same paragraph
-
-    def duplicateSentRemover(self, text):
-        unique_sents = []
-        paragraphs = self.paragrapher(text)
-        for paragraph in paragraphs:
-            print("+++++---------------++++PARAGRAPH+++---------------")
-            print(paragraph)
-            sentences = self.sent_tokenizer(paragraph)
-            for sentence in sentences:
-                print("+++++---------------++++SENTENCE+++---------------+++++++++++++")
-                print(sentence)
-                # for j in range(len(sentences)):
-                #     [unique_sents.append(x)
-                #      for x in sentences if x not in unique_sents]
-
-            unique_sents = str(paragraph)
-            unique_sents = ' '.join(
-                Removers().unique_list(unique_sents.split(".")))
-
-            print(
-                "+++++++++++++++++_________________without duplicates_____________+++++++++++++++")
-            print(unique_sents)
-
-    def sent_tokenizer(self, text):
-        sentences = sent_tokenize(text)
+    """ Separate a paragrapgh into word tokens. """
+    def sent_tokenize(self, paragraph):
+        sentences = [sent.strip() for sent in sent_tokenize(paragraph)]
         return sentences
-
-    def word_tokenizer(self, text):
-        words = word_tokenize(text)
+    
+    """ Separate a sentence into word tokens. """
+    def word_tokenizer(self, sentence):
+        words = word_tokenize(sentence)
         return words
 
-    def unique_list(self, elemets):
-        ulist = []
-        [ulist.append(x) for x in elemets if x not in ulist]
-        return ulist
+    """ Reconstructs a sentences from a list of stirngs. """
+    def sentence_reconstruct(self, words):
+        end_punct = ['?','.',';',':',',',',','!']
+        new_sent = ""
+        for word in words:
+            if word in end_punct or words.index(word) == 0 or "'" in word:
+                new_sent += word
+            else:
+                new_sent += f" {word}"
+        return new_sent
+
+    # +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+ Sentence remover *+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+
+
+    """ Reads redundant phrases and simplified versions from a json file. """
+    def read_phrases_from_file(self):
+        file = open("redundant_phrases.json", "r")
+        return json.loads(file.read())
+    
+    """ Remove the redundant phrases from sentence and replaces it with simplified version. """
+    def remove_redundant_phrases(self, sentence):
+        for key in self.redundant_phrases:
+            if key in sentence:
+                self.phrase_counter += 1
+                sentence = sentence.replace(key, str(self.redundant_phrases[key]))
+        return sentence
+    
+    """ Removes duplicate sentences found within a given paragrapgh. """
+    def remove_duplicate_sentences(self, sentences):
+        uniq_sents = []
+        counter = Counter(sentences)
+        
+        total = 0
+
+        [total := total + counter[key] for key in counter]
+        self.sent_counter = total
+        
+        [uniq_sents.append(sent) for sent in sentences if sent not in uniq_sents]
+        return uniq_sents
+    
+    """ Removes duplicate words found within a given sentence. """
+    def remove_repeat_words(self, sentence):
+        words = self.word_tokenizer(sentence)
+        buffer = words
+
+        seen_words = {}
+        uniq_words = []
+
+        for word in buffer:
+            if word.lower() in seen_words:
+                self.word_counter += 1
+                continue
+            else:
+                seen_words[word.lower()] = word.lower()
+                uniq_words.append(word)
+        return self.sentence_reconstruct(uniq_words)
 
 
-# a = "calvin klein design dress calvin klein calvin klein calvin klein"
-# a = ' '.join(unique_list(a.split()))
-# print(a)
+    def optimize(self, text):
+        paragraphs = self.paragrapher(text)
+        for paragraph in paragraphs:
+            sentences = self.sent_tokenize(paragraph)
+            uniq_sents = self.remove_duplicate_sentences(sentences)
+            for sentence in uniq_sents:
+                sent_first_phase = self.remove_redundant_phrases(sentence)
+                uniq_sents[uniq_sents.index(sentence)] = self.remove_repeat_words(sent_first_phase)
+                # print(sentence)
+            paragraphs[paragraphs.index(paragraph)] = ' '.join(uniq_sents)
+        # print(paragraphs)
+        return paragraphs
+        
+        
+text = """ It's not only writers who can benefit from this free online tool. It's not only writers who can benefit from this free online tool. If you're a programmer who's working on a project where blocks of text are needed, this tool can be a great way to get that. It's a good way to test your programming and that the tool being created is working well.
+
+Above are a few examples of how the random paragraph. I wish that I would plan ahead some times or even reverse back. The best way to see if this random paragraph picker will be useful for your intended purposes is to give it a try. Generate a number of paragraphs to see if they are beneficial to your current project."""
 
 
-# +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+testing segment *+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+
-# Removers.testRemoval
-# Removers.SpacySentencizer(text)
-# Removers().wordRemover(rep)
-# print(Removers().removeRedundantPhrasee(
-#     "Will you cease and desist that infernal racket! We should plan ahead for Christmas."))
-# Removers().sentenceRedundanceRemover1(text)
-# Removers().paragrapher(text)
-# Removers().repeatWordRemover(text)
-# Removers().repeatSentRemover(text)
-# Removers().duplicateSentRemover(text)
+# opt = Optimizer()
+# print(opt.optimize(text))
+# print(opt.sent_counter)
+# print(opt.word_counter)
+# print(opt.phrase_counter)

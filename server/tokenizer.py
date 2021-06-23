@@ -3,6 +3,8 @@ import spacy
 import docx
 import pdfplumber
 
+from optimizer import Optimizer
+
 class Tokenizer:
     def __init__(self):
         self.text = ''
@@ -67,7 +69,7 @@ class Tokenizer:
                 'lemma': doc[0].lemma_,
                 'is_stop_word': doc[0].is_stop,
                 'pos': doc[0].pos_,
-                'shape': doc[0].shape
+                'shape': doc[0].shape_
             })
         return info
     
@@ -97,3 +99,8 @@ class Tokenizer:
                 stop_words[token['text']] = 1
             
         return stop_words
+    
+    def optimized_text(self):
+        optimizer = Optimizer()
+        opt_text = optimizer.optimize(self.text)
+        return ' '.join(opt_text) 
