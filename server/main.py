@@ -23,6 +23,7 @@ cors = CORS(app)
 
 t = Tokenizer()
 
+
 class Files(Resource):
     def get(self):
         files = []
@@ -36,7 +37,7 @@ class Files(Resource):
                 'name': file.replace('files\\', ''),
                 'ext': os.path.splitext(file)[1],
                 'info': os.stat(file).st_size})
-            
+
         with open('urls.txt', 'r') as f:
             for line in f.readlines():
                 result.append({
@@ -58,7 +59,8 @@ class Files(Resource):
             fd = open('files\\' + data['file_name'], 'wb')
             fd.write(binary_data)
             fd.close()
-        return {"sucsess": "true"}
+        return {"success": True}
+
 
 class Tokenize(Resource):
     def get(self):
@@ -72,13 +74,19 @@ class Tokenize(Resource):
         else:
             tk.read_from_file('files\\' + data['name'])
         tokens = tk.reg_tokenize()
+        optimized = tk.optimized_text()
         return {
             'tokens': tokens,
-            'stop_words': t.stop_freq(tokens),
-            'pos': t.pos_freq(tokens)
+            'stop_words': tk.stop_freq(tokens),
+            'pos': tk.pos_freq(tokens),
+            'raw_text': optimized['text'],
+            'pc': optimized['phrase_counter'],
+            'sc': optimized['sent_counter'],
+            'wc': optimized['word_counter']
         }
 
-class Audios(Resource): 
+
+class Audios(Resource):
     def put(self):
         pass
 
@@ -102,9 +110,10 @@ class Audios(Resource):
 #             'cfg': parser.cfg(token.text)
 #         }
 
+
 api.add_resource(Files, "/files")
 api.add_resource(Tokenize, "/tokenize")
-api.add_resource(Audios, "/audios")
+# api.add_resource(Audios, "/audios")
 # api.add_resource(Parse, "/parse")
 
 if __name__ == "__main__":
