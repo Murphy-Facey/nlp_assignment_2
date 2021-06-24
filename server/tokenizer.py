@@ -52,7 +52,7 @@ class Tokenizer:
         # Create tokens by white space
         print('started')
         opt_text = self.optimized_text()['text']
-        tokens = self.text.split()
+        tokens = opt_text.split()
         for index, token in enumerate(tokens):
             if re.findall(r'(?:[A-Z]\.)+', token) != []:
                 tokens[index] = [token]

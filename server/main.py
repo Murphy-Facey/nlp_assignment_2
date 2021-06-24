@@ -23,7 +23,6 @@ cors = CORS(app)
 
 t = Tokenizer()
 
-
 class Files(Resource):
     def get(self):
         files = []
@@ -79,24 +78,12 @@ class Tokenize(Resource):
             'tokens': tokens,
             'stop_words': tk.stop_freq(tokens),
             'pos': tk.pos_freq(tokens),
-            'raw_text': optimized['text'],
+            'raw_text': tk.text,
+            'opt_text': optimized['text'],
             'pc': optimized['phrase_counter'],
             'sc': optimized['sent_counter'],
             'wc': optimized['word_counter']
         }
-
-
-# class Audios(Resource):
-#     def put(self):
-#         pass
-
-#     def post(self):
-#         tts = TTS()
-#         data = ast.literal_eval(request.data.decode("UTF-8"))
-#         if t.text == '':
-#             t.read_from_file('files\\' + data['filename'])
-#         tts.init_sentences(t.sent_tokenize())
-#         tts.generate_audio(data['folder'], data['index'], data['play'])
 
 class Images(Resource):
     def get(self):

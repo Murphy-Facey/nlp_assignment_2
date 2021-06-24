@@ -13,14 +13,20 @@ const App = () => {
     setIsParse({isParse: is_parse});
   }
 
+  const is_back = () => {
+    console.log('here -- there');
+    setIsParse(false);
+  }
+
   return (
     <div className="App">
       <div className="main_area">
          <Header />
+         {/* <MainArea item={current} /> */}
          {
            !isParse ? 
-            <FileUpload handler={handler} />:
-            <MainArea item={current} />
+            <FileUpload handler={handler}  />:
+            <MainArea item={current} is_parse={is_back} />
          }
       </div>
     </div>

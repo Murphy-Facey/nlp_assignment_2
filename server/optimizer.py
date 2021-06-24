@@ -84,25 +84,20 @@ class Optimizer():
 
     def optimize(self, text):
         paragraphs = self.paragrapher(text)
+        # print("---------------- REGULAR PARAGRAPHS ----------------\n")
+        # print(paragraphs)
+        # print('\n\n\n\n\n')
         for paragraph in paragraphs:
             sentences = self.sent_tokenize(paragraph)
             uniq_sents = self.remove_duplicate_sentences(sentences)
             for sentence in uniq_sents:
                 sent_first_phase = self.remove_redundant_phrases(sentence)
                 uniq_sents[uniq_sents.index(sentence)] = self.remove_repeat_words(sent_first_phase)
-                # print(sentence)
             paragraphs[paragraphs.index(paragraph)] = ' '.join(uniq_sents)
+        # print("---------------- OPTIMISED PARAGRAPHS ----------------\n")
         # print(paragraphs)
         return paragraphs
         
         
-text = """ It's not only writers who can benefit from this free online tool. It's not only writers who can benefit from this free online tool. If you're a programmer who's working on a project where blocks of text are needed, this tool can be a great way to get that. It's a good way to test your programming and that the tool being created is working well.
-
-Above are a few examples of how the random paragraph. I wish that I would plan ahead some times or even reverse back. The best way to see if this random paragraph picker will be useful for your intended purposes is to give it a try. Generate a number of paragraphs to see if they are beneficial to your current project."""
-
-
-# opt = Optimizer()
-# print(opt.optimize(text))
-# print(opt.sent_counter)
-# print(opt.word_counter)
-# print(opt.phrase_counter)
+# text = """ It's not only writers who can benefit from this free online tool. It's not only writers who can benefit from this free online tool. If you're a programmer who's working on a project where blocks of text are needed, this tool can be a great way to get that. It's a good way to test your programming and that the tool being created is working well.
+# Above are a few examples of how the random paragraph. I wish that I would plan ahead some times or even reverse back. The best way to see if this random paragraph picker will be useful for your intended purposes is to give it a try. Generate a number of paragraphs to see if they are beneficial to your current project."""
