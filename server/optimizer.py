@@ -75,9 +75,9 @@ class Optimizer():
         file = open("synonyms.json", "r")
         return json.loads(file.read())
     
-    """ Remove synonyms and idoims from sentence. """
+    """ Replace synonyms and idoims from sentence. """
     
-    def remove_synonyms_and_idoims(self, sentence):
+    def replace_synonyms_and_idioms(self, sentence):
         for key in self.synonyms:
             if " " in key:
                 if key in sentence:
@@ -145,7 +145,7 @@ class Optimizer():
                 sent_first_phase = self.remove_redundant_phrases(sentence)
                 sent_second_phase = self.removers.identifyAbrev(sent_first_phase)
                 sent_third_phase = self.removers.identifyEmoji(sent_second_phase)
-                sent_fourth_phase = self.remove_synonyms_and_idoims(sent_third_phase)
+                sent_fourth_phase = self.replace_synonyms_and_idioms(sent_third_phase)
                 sent_fifth_phase = self.sentence_reconstruct(self.removers.autoCorrect(sent_fourth_phase))
                 uniq_sents[uniq_sents.index(sentence)] = self.remove_repeat_words(sent_fifth_phase)
 
