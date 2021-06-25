@@ -1,3 +1,4 @@
+import enchant
 import json
 import nltk
 from nltk import word_tokenize, sent_tokenize
@@ -194,20 +195,27 @@ class Removers:
         [ulist.append(x) for x in elemets if x not in ulist]
         return ulist
 
+# +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+ word checker *+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+
 
-# a = "calvin klein design dress calvin klein calvin klein calvin klein"
-# a = ' '.join(unique_list(a.split()))
-# print(a)
+
+def englishChecker(token):
+    d = enchant.Dict("en_US")
+    res = d.check(token)
+    if res == 1:
+        print(d.suggest(token))
+    elif res == 0:
+        print("the word is okay")
 
 
 # +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+testing segment *+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+
 # Removers.testRemoval
 # Removers.SpacySentencizer(text)
 # Removers().wordRemover(rep)
-# print(Removers().removeRedundantPhrasee(
-#     "Will you cease and desist that infernal racket! We should plan ahead for Christmas."))
+print(Removers().removeRedundantPhrasee(
+    "Will you cease and desist that infernal racket! We should plan ahead for Christmas."))
 # Removers().sentenceRedundanceRemover1(text)
 # Removers().paragrapher(text)
 # Removers().repeatWordRemover(text)
 # Removers().repeatSentRemover(text)
 # Removers().duplicateSentRemover(text)
+# englishChecker("bell")
