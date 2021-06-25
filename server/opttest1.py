@@ -1,3 +1,4 @@
+import enchant
 import json
 import nltk
 from nltk import word_tokenize, sent_tokenize
@@ -144,9 +145,10 @@ class Removers:
         return ulist
 
 
-# a = "calvin klein design dress calvin klein calvin klein calvin klein"
-# a = ' '.join(unique_list(a.split()))
-# print(a)
+d = enchant.Dict("en_US")
+d.check("Hello")
+d.check("Helo")
+d.suggest("Helo")
 
 
 # +*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+testing segment *+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+
