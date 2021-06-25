@@ -154,11 +154,11 @@ class Optimizer():
         # print(paragraphs)
         return paragraphs
         
-text = """This sentence is one that contains contains repeated words words words.
-This is a sentence that matches with another. This is a sentence that matches with another. However, we check to see if it is removed.
-I am :-o to know persons can feel :D while I (: at them. Anyways, I will brb or ttyl.
-thss sentnces has speling erors whire nothng seims to be rigt.
-The new feature of the Apple's new phone is good. It sometimes makes Andriod look like it is between a rock and hard place. But with large amount of effort in the next years, Android can be on the ball again."""
+# text = """This sentence is one that contains contains repeated words words words.
+# This is a sentence that matches with another. This is a sentence that matches with another. However, we check to see if it is removed.
+# I am :-o to know persons can feel :D while I (: at them. Anyways, I will brb or ttyl.
+# thss sentnces has speling erors whire nothng seims to be rigt.
+# The new feature of the Apple's new phone is good. It sometimes makes Andriod look like it is between a rock and hard place. But with large amount of effort in the next years, Android can be on the ball again."""
 
-opt = Optimizer()
-print(opt.optimize(text))
+# opt = Optimizer()
+# print(opt.optimize(text))

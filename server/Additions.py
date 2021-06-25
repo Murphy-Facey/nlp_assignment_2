@@ -61,7 +61,6 @@ class Removers:
 
     def identifyAbrev(self, sentence):
         self.readAbrev()
-
         # print(sentence)
         tokens = sentence.split()
 
@@ -73,10 +72,7 @@ class Removers:
                     new_tokens = self.seperate_tokens(token)
                     new_tokens[new_tokens.index(key)] = str(self.abrs[key])
                     tokens[tokens.index(token)] = ''.join(new_tokens)
-                
-        # for key in self.abrs:
-        #     if key in sentence:
-        #         sentence = sentence.replace(key, str(self.abrs[key]))
+                    
         return ' '.join(tokens)
 
     # rule : we know have a paragraph when the text hits a next line sentences
